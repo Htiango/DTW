@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		05C9D0CE1D9A650A0073F1A6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D0CD1D9A650A0073F1A6 /* main.cpp */; };
+		05C9D0D61D9A65400073F1A6 /* dtw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D0D51D9A65400073F1A6 /* dtw.cpp */; };
+		05C9D0E21D9AA7E00073F1A6 /* captureData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D0D71D9AA7E00073F1A6 /* captureData.cpp */; };
+		05C9D0E31D9AA7E00073F1A6 /* featureExtraction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D0D91D9AA7E00073F1A6 /* featureExtraction.cpp */; };
+		05C9D0E41D9AA7E00073F1A6 /* fft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D0DB1D9AA7E00073F1A6 /* fft.cpp */; };
+		05C9D0E51D9AA7E00073F1A6 /* libportaudio.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C9D0DD1D9AA7E00073F1A6 /* libportaudio.2.dylib */; };
+		05C9D0E61D9AA7E00073F1A6 /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C9D0DE1D9AA7E00073F1A6 /* libportaudio.a */; };
+		05C9D0E81D9AA7E00073F1A6 /* readwave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D0E01D9AA7E00073F1A6 /* readwave.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +32,19 @@
 /* Begin PBXFileReference section */
 		05C9D0CA1D9A650A0073F1A6 /* DTW */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DTW; sourceTree = BUILT_PRODUCTS_DIR; };
 		05C9D0CD1D9A650A0073F1A6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		05C9D0D41D9A65330073F1A6 /* dtw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dtw.h; sourceTree = "<group>"; };
+		05C9D0D51D9A65400073F1A6 /* dtw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dtw.cpp; sourceTree = "<group>"; };
+		05C9D0D71D9AA7E00073F1A6 /* captureData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = captureData.cpp; sourceTree = "<group>"; };
+		05C9D0D81D9AA7E00073F1A6 /* captureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = captureData.h; sourceTree = "<group>"; };
+		05C9D0D91D9AA7E00073F1A6 /* featureExtraction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = featureExtraction.cpp; sourceTree = "<group>"; };
+		05C9D0DA1D9AA7E00073F1A6 /* featureExtraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = featureExtraction.h; sourceTree = "<group>"; };
+		05C9D0DB1D9AA7E00073F1A6 /* fft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fft.cpp; sourceTree = "<group>"; };
+		05C9D0DC1D9AA7E00073F1A6 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
+		05C9D0DD1D9AA7E00073F1A6 /* libportaudio.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libportaudio.2.dylib; sourceTree = "<group>"; };
+		05C9D0DE1D9AA7E00073F1A6 /* libportaudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libportaudio.a; sourceTree = "<group>"; };
+		05C9D0E01D9AA7E00073F1A6 /* readwave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = readwave.cpp; sourceTree = "<group>"; };
+		05C9D0E11D9AA7E00073F1A6 /* readwave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = readwave.h; sourceTree = "<group>"; };
+		05C9D0EB1D9AAA460073F1A6 /* portaudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = portaudio.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +52,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05C9D0E51D9AA7E00073F1A6 /* libportaudio.2.dylib in Frameworks */,
+				05C9D0E61D9AA7E00073F1A6 /* libportaudio.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,8 +80,29 @@
 			isa = PBXGroup;
 			children = (
 				05C9D0CD1D9A650A0073F1A6 /* main.cpp */,
+				05C9D0D41D9A65330073F1A6 /* dtw.h */,
+				05C9D0D51D9A65400073F1A6 /* dtw.cpp */,
+				05C9D0D71D9AA7E00073F1A6 /* captureData.cpp */,
+				05C9D0D81D9AA7E00073F1A6 /* captureData.h */,
+				05C9D0D91D9AA7E00073F1A6 /* featureExtraction.cpp */,
+				05C9D0DA1D9AA7E00073F1A6 /* featureExtraction.h */,
+				05C9D0DB1D9AA7E00073F1A6 /* fft.cpp */,
+				05C9D0DC1D9AA7E00073F1A6 /* fft.h */,
+				05C9D0E01D9AA7E00073F1A6 /* readwave.cpp */,
+				05C9D0E11D9AA7E00073F1A6 /* readwave.h */,
+				05C9D0EC1D9AABAC0073F1A6 /* portaudio */,
 			);
 			path = DTW;
+			sourceTree = "<group>";
+		};
+		05C9D0EC1D9AABAC0073F1A6 /* portaudio */ = {
+			isa = PBXGroup;
+			children = (
+				05C9D0DD1D9AA7E00073F1A6 /* libportaudio.2.dylib */,
+				05C9D0DE1D9AA7E00073F1A6 /* libportaudio.a */,
+				05C9D0EB1D9AAA460073F1A6 /* portaudio.h */,
+			);
+			name = portaudio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,7 +161,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05C9D0E21D9AA7E00073F1A6 /* captureData.cpp in Sources */,
 				05C9D0CE1D9A650A0073F1A6 /* main.cpp in Sources */,
+				05C9D0E81D9AA7E00073F1A6 /* readwave.cpp in Sources */,
+				05C9D0E41D9AA7E00073F1A6 /* fft.cpp in Sources */,
+				05C9D0D61D9A65400073F1A6 /* dtw.cpp in Sources */,
+				05C9D0E31D9AA7E00073F1A6 /* featureExtraction.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +257,10 @@
 		05C9D0D21D9A650A0073F1A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DTW",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -216,6 +268,10 @@
 		05C9D0D31D9A650A0073F1A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DTW",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
