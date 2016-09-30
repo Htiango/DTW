@@ -71,7 +71,7 @@ bool classifyFrame(SAMPLE *audioframe, long framesToCalc)
         background = current;
     }
     else{
-        background = (current - background) * ADJUSTMENT;
+        background += (current - background) * ADJUSTMENT;
     }
     
     if (level < background) {
@@ -234,7 +234,7 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
     return finished;
 }
 
-void capture(){
+void capture(string& filePath){
     PaStreamParameters  inputParameters,
     outputParameters;
     PaStream*           stream;
@@ -246,6 +246,17 @@ void capture(){
     int                 numBytes;
     SAMPLE              max, val;
     double              average;
+    
+    
+    /**
+     set the global to 0
+     **/
+    level = 0;
+    backgroundOf10 = 0;
+    frameCount = 0;
+    continueSilenceTime = 0;
+    totalFrames = 0;
+    outTime  = 0;
     
     printf("patest_record.c\n"); fflush(stdout);
     
@@ -333,7 +344,7 @@ void capture(){
     /* Write recorded data to a file. */
 #if WRITE_TO_FILE
     {
-        char wavFile[] = "/Users/hty/desktop/record.wav";
+        const char* wavFile = filePath.c_str();
         WriteWave(wavFile, data.recordedSamples , numSamples, SAMPLE_RATE);
 //        WriteWave(wavFile, data.recordedSamples , numSamples, 16000);
     }

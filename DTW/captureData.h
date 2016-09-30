@@ -32,9 +32,9 @@ typedef short SAMPLE;
 
 #define FORGET_FACTOR   (1)
 #define ADJUSTMENT      (0.05)
-#define THRESHOLD       (20)
-#define SILENCETHRESHOLD    (15)        // make it to 300ms
+#define THRESHOLD       (10)
+#define SILENCETHRESHOLD    (30)        // make it to 600ms
 
-void capture();
+void capture(string& filePath);
 
 #endif
