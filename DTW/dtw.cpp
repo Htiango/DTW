@@ -41,11 +41,13 @@ double dtw(vector<vector<double>>& inputAduio, vector<vector<double>>& temAduio)
     unsigned int inputFrameNum = (unsigned int)inputAduio.size();
     unsigned int temFrameNum = (unsigned int)temAduio.size();
     
-    vector<double> col(temFrameNum), prevCol(temFrameNum);
+    vector<double> col(temFrameNum), prevCol(temFrameNum), colMax(temFrameNum);
     
     for (unsigned i = 0; i < temFrameNum; i++) {
-        prevCol[i] = UINT_MAX / 2;
+        colMax[i] = UINT_MAX / 2;
     }
+    
+    prevCol = colMax;
     
     prevCol[0] = dis(inputAduio[0], temAduio[0]);
     prevCol[1] = dis(inputAduio[0], temAduio[1]);
@@ -53,8 +55,9 @@ double dtw(vector<vector<double>>& inputAduio, vector<vector<double>>& temAduio)
     for (unsigned int i = 1; i < inputFrameNum; i++) {
         
         unsigned int temp = min({2 * (i + 1), temFrameNum});
+        col = colMax;
         
-        for (unsigned int j = 0; j < temp; j ++) {
+        for (unsigned int j = 0; j < temp; j++) {
             
             if (j == 0) {
                 col[j] = prevCol[j] + dis(inputAduio[i], temAduio[j]);
