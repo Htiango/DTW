@@ -7,6 +7,7 @@
 #include <fstream>
 #include "readwave.h"
 #include "fft.h"
+#include <vector>
 
 using namespace std;
 
@@ -39,9 +40,11 @@ typedef short SAMPLE;
 #define FORGET_FACTOR   (1)
 #define ADJUSTMENT      (0.05)
 #define THRESHOLD           (10)
-#define SPEAKTHRESHOLD      (0)
-#define SILENCETHRESHOLD    (0)
+#define SPEAKTHRESHOLD      (5)
+#define SILENCETHRESHOLD    (5)
+#define FRAME_IGNORE        (4)
+#define FRAME_TO_BACKGROUND (5)
 
-void featureExtraction();
+void featureExtraction(vector<vector<double>>& normDCT, string& wav, string& filePath);
 
 #endif

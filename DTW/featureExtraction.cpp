@@ -3,10 +3,10 @@
 int frameNum = 0;
 
 double backgroundOf10f = 0;
-double levelf = 0;
-int continueSpeakTimef = 0;
-int continueSilenceTimef = 0;
-int frameCountf = 0;
+double levelStart = 0;
+double levelEnd = 0;
+
+
 
 double EnergyPerSampleInDecibelf(SAMPLE *audioframe, long framesToCalc)
 {
@@ -25,15 +25,18 @@ double EnergyPerSampleInDecibelf(SAMPLE *audioframe, long framesToCalc)
     return decibel;
 }
 
-bool classifyFramef(SAMPLE *audioframe, long framesToCalc)
+bool classifyStartFramef(SAMPLE *audioframe, long framesToCalc)
 {
     bool isSpeech = false;
     double current = EnergyPerSampleInDecibelf(audioframe, framesToCalc);
-    double background = backgroundOf10f ;
+    double background = backgroundOf10f / FRAME_TO_BACKGROUND;
     
-    levelf = ((levelf * FORGET_FACTOR) + current) / (FORGET_FACTOR + 1);
+    levelStart = ((levelStart * FORGET_FACTOR) + current) / (FORGET_FACTOR + 1);
     
-    cout << "backgroundORIRIDIDID " << background << endl;
+//    if (flag) {
+//        cout << "backgroundORIRIDIDID " << background << endl;
+//    }
+    
     
     if (current < background) {
         background = current;
@@ -42,74 +45,161 @@ bool classifyFramef(SAMPLE *audioframe, long framesToCalc)
         background += (current - background) * ADJUSTMENT;
     }
     
-    if (levelf < background) {
-        levelf = background;
+    if (levelStart < background) {
+        levelStart = background;
     }
-    if (levelf - background > THRESHOLD) {
+    if (levelStart - background > THRESHOLD) {
         isSpeech = true;
     }
-    
-    cout << "current: " << current << endl;
-    cout << "level: " << levelf << endl;
-    cout << "background: " << background << endl;
-    
+//    if (flag) {
+//        cout << "current: " << current << endl;
+//        cout << "level: " << levelStart << endl;
+//        cout << "background: " << background << endl;
+//    }
     return isSpeech;
-    
 }
+
+
+bool classifyEndFramef(SAMPLE *audioframe, long framesToCalc)
+{
+    bool isSpeech = false;
+    double current = EnergyPerSampleInDecibelf(audioframe, framesToCalc);
+    double background = backgroundOf10f / FRAME_TO_BACKGROUND;
+    
+    levelEnd = ((levelEnd * FORGET_FACTOR) + current) / (FORGET_FACTOR + 1);
+    
+    if (current < background) {
+        background = current;
+    }
+    else {
+        background += (current - background) * ADJUSTMENT;
+    }
+    
+    if (levelEnd < background) {
+        levelEnd = background;
+    }
+    if (levelEnd - background > THRESHOLD) {
+        isSpeech = true;
+    }
+
+    return isSpeech;
+}
+
 
 int pruneFrame(short* dataWave, int& numSamples) {
     int start = 0;
     int end = 0;
     bool startFlag = true;
     bool endFlag = true;
-
-    for (int i = 3 * SAMPLE_PER_FRAME; i < numSamples; i++) {
-        if (i < 5 * SAMPLE_PER_FRAME) {
-            if (i == 3 * SAMPLE_PER_FRAME) {
-                levelf = EnergyPerSampleInDecibelf(dataWave + i, SAMPLE_PER_FRAME);
-                printf("The first energy is %f \n", levelf);
-            }
-            else if( (i % SAMPLE_PER_FRAME) == 0){
-                double currentTemp = EnergyPerSampleInDecibelf(dataWave + i, SAMPLE_PER_FRAME);
-                levelf = ((levelf * FORGET_FACTOR) + currentTemp) / (FORGET_FACTOR + 1);
-                backgroundOf10f += EnergyPerSampleInDecibelf(dataWave + i, SAMPLE_PER_FRAME);
-            }
-                
+    
+    int continueSpeakTimef = 0;
+    int continueSilenceTimef = 0;
+    
+    for (int i = FRAME_IGNORE * SAMPLE_PER_FRAME; i < numSamples; i += SAMPLE_PER_FRAME) {
+        if (i < (FRAME_IGNORE + FRAME_TO_BACKGROUND) * SAMPLE_PER_FRAME) {
+            double current = EnergyPerSampleInDecibelf(dataWave + i, SAMPLE_PER_FRAME);
+            backgroundOf10f += current;
         }
-        else if(i % SAMPLE_PER_FRAME == 0){
-            if (classifyFramef(dataWave + i, SAMPLE_PER_FRAME)) {
-                if(startFlag)
+        else{
+            if (classifyStartFramef(dataWave + i, SAMPLE_PER_FRAME)) {
+                if(startFlag){
                     continueSpeakTimef++;
+                }
             }
             else {
-                if(startFlag)
+                if(startFlag){
                     continueSpeakTimef = 0;
+                }
             }
-            if(classifyFramef(dataWave + numSamples - i, SAMPLE_PER_FRAME)){
-                continueSilenceTimef++;
+            if(classifyEndFramef(dataWave + numSamples - i + (FRAME_IGNORE + FRAME_TO_BACKGROUND - 1) * SAMPLE_PER_FRAME , SAMPLE_PER_FRAME)){
+                if(endFlag){
+                    continueSilenceTimef++;
+                }
             }
             else{
-                continueSilenceTimef = 0;
+                if(endFlag){
+                    continueSilenceTimef = 0;
+                }
             }
+
         }
+        
         if (continueSpeakTimef > SPEAKTHRESHOLD && startFlag) {
-            cout << "D--------------" <<  endl;
-            cout << "DATAWAVE" <<dataWave <<  endl;
-            start = i;
+            start = i - SPEAKTHRESHOLD * SAMPLE_PER_FRAME;
             startFlag = false;
-            cout << "DATAWAVE" <<dataWave <<  endl;
         }
         if (continueSilenceTimef > SILENCETHRESHOLD && endFlag) {
-            end = numSamples - i;
+            end = numSamples - i + (FRAME_IGNORE + FRAME_TO_BACKGROUND + SILENCETHRESHOLD) * SAMPLE_PER_FRAME;
             endFlag = false;
         }
     }
+    
     numSamples = end - start;
-//    dataWave += start;
+    //    dataWave += start;
     cout << "END    " << end<< endl;
     cout << "START   " << start << endl;
     return start;
 }
+
+
+///*delete the silent part of audio record at beginning and end,
+// **then return the offset of the audio beginning address.
+// **use two flag start and end search the audio data from
+// **beginning and end respectively. If start detect the audio then
+// **prepare to judge whether satisfy a long time.
+// **if end detect audio from end to beginning, then prepare to
+// **discard a piece audio
+// */
+//int pruneFrame(short* dataWave, int& numSamples) {
+//    int start = 0;
+//    int end = 0;
+//    bool startFlag = true;
+//    bool endFlag = true;
+//    for (int i = FRAME_IGNORE * SAMPLE_PER_FRAME; i < numSamples; i++) {
+//        if (i < (FRAME_IGNORE + FRAME_TO_BACKGROUND) * SAMPLE_PER_FRAME) {
+//            if (i == FRAME_IGNORE * SAMPLE_PER_FRAME) {
+//                levelf = EnergyPerSampleInDecibelf(dataWave + i, SAMPLE_PER_FRAME);
+//                printf("The first energy is %f \n", levelf);
+//            }
+//            else if(i % SAMPLE_PER_FRAME == 0){
+//                double currentTemp = EnergyPerSampleInDecibelf(dataWave + i, SAMPLE_PER_FRAME);
+//                levelf = ((levelf * FORGET_FACTOR) + currentTemp) / (FORGET_FACTOR + 1);
+//                backgroundOf10f += EnergyPerSampleInDecibelf(dataWave + i, SAMPLE_PER_FRAME);
+//            }
+//        }
+//        else if(i % SAMPLE_PER_FRAME == 0){
+//            if (classifyFramef(dataWave + i, SAMPLE_PER_FRAME)) {
+//                if(startFlag)
+//                    continueSpeakTimef++;
+//            }
+//            else {
+//                if(startFlag)
+//                    continueSpeakTimef = 0;
+//            }
+//            if (classifyFramef(dataWave + numSamples - i, SAMPLE_PER_FRAME)) {
+//                continueSilenceTimef++;
+//            }
+//            else {
+//                continueSilenceTimef = 0;
+//            }
+//        }
+//        if (continueSpeakTimef > SPEAKTHRESHOLD && startFlag) {
+//            start = i - SPEAKTHRESHOLD * SAMPLE_PER_FRAME;
+//            startFlag = false;
+//        }
+//        if (continueSilenceTimef > SILENCETHRESHOLD && endFlag) {
+//            end = numSamples - i + SILENCETHRESHOLD * SAMPLE_PER_FRAME;
+//            endFlag = false;
+//        }
+//        
+//    }
+//    
+//    cout << "start = " << start << endl;
+//    cout << "end = " << end << endl;
+//    
+//    numSamples = end - start;
+//    return start;
+//}
 
 /**
  
@@ -342,44 +432,108 @@ double* getDCT(double* melLogEnergy) {
 }
 
 /**
-*  do the normalized DCT
+*  do the norm (sub average and divide variance)
 *
 *  @param dctResult        the 13 * frameNum DCT result
 */
 void getNormalizedDCT(double** dctResult) {
-	double m[DCT_DIMENSION] = { 0 };
-	double sum[DCT_DIMENSION] = { 0 };
-
-	for (int i = 0; i < DCT_DIMENSION; i++) {
-
-		for (int j = 0; j < frameNum; j++) {
-			sum[i] += dctResult[j][i];
-		}
-
-		m[i] = sum[i] / frameNum;
-	}
-
-	for (int i = 0; i < DCT_DIMENSION; i++) {
-
-		for (int j = 0; j < frameNum; j++) {
-			dctResult[j][i] -= m[i];
-		}
-	}
-
+    double averageValue;
+    double varianceValue;
+    
+    // do the norm
+    for(int k = 0; k < DCT_DIMENSION; k++){
+        averageValue = 0;
+        varianceValue = 0;
+        // compute the average of this dimension
+        for (int i = 0; i < frameNum; i++) {
+            averageValue += dctResult[i][k];
+        }
+        averageValue =  averageValue / frameNum;
+        // minus the average from the dimension
+        for (int i = 0; i < frameNum; i++) {
+            dctResult[i][k] -= averageValue;
+            varianceValue += pow(dctResult[i][k], 2);
+        }
+        varianceValue =varianceValue / frameNum;
+        varianceValue = sqrt(varianceValue);
+        // divide the variance from the dimension
+        for (int i = 0; i < frameNum; i++) {
+            dctResult[i][k] /= varianceValue;
+        }
+    }
 }
 
-void featureExtraction() {
+
+/**
+*  entend the feature into 39-D
+*
+*  @param dctResult        the 13 * frameNum DCT result
+*  @param normDCT          the vector of each frame, each with 39-D normed feature, it should be initially null
+*/
+void DCTNorm(double** dctResult, vector<vector<double>>& normDCT){
+
+    // put normed dct value into vector
+    for (int i = 0; i < frameNum; i++) {
+        vector<double> dimension(DCT_DIMENSION * 3);
+        for (int k = 0; k < DCT_DIMENSION * 3; k++) {
+            if (k < DCT_DIMENSION) {
+                dimension[k] = dctResult[i][k];
+            }
+            else if (k < DCT_DIMENSION * 2){
+                if(i == (frameNum - 1)){
+                    dimension[k] = dctResult[i][k - DCT_DIMENSION] - dctResult[i - 1][k - DCT_DIMENSION];
+                }
+                else if(i == 0){
+//                    cout << "front = " << dctResult[i + 1][k - DCT_DIMENSION]  << endl;
+//                    cout << "now = " << dctResult[i ][k - DCT_DIMENSION] << endl;
+                    dimension[k] = dctResult[i + 1][k - DCT_DIMENSION] - dctResult[i][k - DCT_DIMENSION];
+                    
+                }
+                else{
+                    dimension[k] = dctResult[i + 1][k - DCT_DIMENSION] - dctResult[i - 1][k - DCT_DIMENSION];
+                }
+            }
+            else{
+                if (i == 0) {
+                    dimension[k] = (dctResult[i + 2][k - 2 * DCT_DIMENSION] - dctResult[i][k - 2 * DCT_DIMENSION]) - (dctResult[i + 1][k - 2 * DCT_DIMENSION] - dctResult[i][k - 2 * DCT_DIMENSION]);
+                }
+                else if (i == (frameNum -1)){
+                    dimension[k] = (dctResult[i][k - 2 * DCT_DIMENSION] - dctResult[i - 1][k - 2 * DCT_DIMENSION]) - (dctResult[i][k - 2 * DCT_DIMENSION] - dctResult[i - 2][k - 2 * DCT_DIMENSION]);
+                }
+                else if (i == 1){
+                    dimension[k] = (dctResult[i + 2][k - 2 * DCT_DIMENSION] - dctResult[i][k - 2 * DCT_DIMENSION]) - (dctResult[i][k - 2 * DCT_DIMENSION] - dctResult[i - 1][k - 2 * DCT_DIMENSION]);
+                }
+                else if (i ==(frameNum - 2)){
+                    dimension[k] = (dctResult[i + 1][k - 2 * DCT_DIMENSION] - dctResult[i][k - 2 * DCT_DIMENSION]) - (dctResult[i][k - 2 * DCT_DIMENSION] - dctResult[i - 2][k - 2 * DCT_DIMENSION]);
+                }
+                else{
+                    dimension[k] = (dctResult[i + 2][k - 2 * DCT_DIMENSION] - dctResult[i][k - 2 * DCT_DIMENSION]) - (dctResult[i][k - 2 * DCT_DIMENSION] - dctResult[i - 2][k - 2 * DCT_DIMENSION]);
+                }
+            }
+        }
+        normDCT.push_back(dimension);
+    }
+}
+
+
+
+
+void featureExtraction(vector<vector<double>>& normDCT,  string& wav, string& filePath) {
+    
+    frameNum = 0;
+    backgroundOf10f = 0;
+    levelStart = 0;
+    levelEnd = 0;
+   
+    
+    
 	short* dataWave;    // store the original wave data
-    short* dataWaveOri;    // store the original wave data
 	double* waveDataAfter; // store the wave data after pre-emphasize
 	double** frameData;   // store the wave data in each frame
 	int numSample;
 	int sampleRate;
-	//    long frameNum;
-
-
-
-	const char *wavFile = "/Users/hty/desktop/record.wav";
+	
+	const char *wavFile = wav.c_str();
 
 	// read in the wave data
 	dataWave = ReadWavFile(wavFile, &numSample, &sampleRate);
@@ -416,14 +570,14 @@ void featureExtraction() {
 		frameDCT[i] = getDCT(melLogEnergy[i]);
 	}
 
-    ofstream fileSample("/Users/hty/desktop/testingData/sample.txt");
-    ofstream filePreemphasized("/Users/hty/desktop/testingData/sample_after_preemphasize.txt");
-    ofstream fileFrame("/Users/hty/desktop/testingData/frameData.txt");
-    ofstream fileFrameEnergy("/Users/hty/desktop/testingData/frameEnergy.txt");
-    ofstream fileMelEnergy("/Users/hty/desktop/testingData/melEnergy.txt");
-    ofstream fileMelLogEnergy("/Users/hty/desktop/testingData/melLogEnergy.txt");
-    ofstream fileDCT("/Users/hty/desktop/testingData/DCT.txt");
-    ofstream fileNormDCT("/Users/hty/desktop/testingData/NormDCT.txt");
+    ofstream fileSample(filePath + "sample.txt");
+    ofstream filePreemphasized(filePath + "sample_after_preemphasize.txt");
+    ofstream fileFrame(filePath + "frameData.txt");
+    ofstream fileFrameEnergy(filePath + "frameEnergy.txt");
+    ofstream fileMelEnergy(filePath + "melEnergy.txt");
+    ofstream fileMelLogEnergy(filePath + "melLogEnergy.txt");
+    ofstream fileDCT(filePath + "DCT.txt");
+    ofstream fileNormDCT(filePath + "NormDCT.txt");
 
 	for (int i = 0; i < numSample; i++) {
 		fileSample << dataWave[i];
@@ -465,6 +619,8 @@ void featureExtraction() {
 		fileMelLogEnergy << endl;
 		fileDCT << endl;
 	}
+    
+    
 
 	getNormalizedDCT(frameDCT);
 
@@ -475,6 +631,9 @@ void featureExtraction() {
 		}
 		fileNormDCT << endl;
 	}
-	cout << "frameNum =  " << frameNum;
+	cout << "frameNum =  " << frameNum << endl;
+    
+    DCTNorm(frameDCT, normDCT);
+    
 }
 
