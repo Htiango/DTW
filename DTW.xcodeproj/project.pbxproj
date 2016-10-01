@@ -15,6 +15,7 @@
 		05C9D0E51D9AA7E00073F1A6 /* libportaudio.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C9D0DD1D9AA7E00073F1A6 /* libportaudio.2.dylib */; };
 		05C9D0E61D9AA7E00073F1A6 /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C9D0DE1D9AA7E00073F1A6 /* libportaudio.a */; };
 		05C9D0E81D9AA7E00073F1A6 /* readwave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D0E01D9AA7E00073F1A6 /* readwave.cpp */; };
+		05EB55AB1D9F62FA002D50E8 /* dtwTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05EB55A91D9F62FA002D50E8 /* dtwTest.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,8 @@
 		05C9D0E01D9AA7E00073F1A6 /* readwave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = readwave.cpp; sourceTree = "<group>"; };
 		05C9D0E11D9AA7E00073F1A6 /* readwave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = readwave.h; sourceTree = "<group>"; };
 		05C9D0EB1D9AAA460073F1A6 /* portaudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = portaudio.h; sourceTree = "<group>"; };
+		05EB55A91D9F62FA002D50E8 /* dtwTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dtwTest.cpp; sourceTree = "<group>"; };
+		05EB55AA1D9F62FA002D50E8 /* dtwTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dtwTest.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +83,10 @@
 			isa = PBXGroup;
 			children = (
 				05C9D0CD1D9A650A0073F1A6 /* main.cpp */,
-				05C9D0D41D9A65330073F1A6 /* dtw.h */,
 				05C9D0D51D9A65400073F1A6 /* dtw.cpp */,
+				05C9D0D41D9A65330073F1A6 /* dtw.h */,
+				05EB55A91D9F62FA002D50E8 /* dtwTest.cpp */,
+				05EB55AA1D9F62FA002D50E8 /* dtwTest.h */,
 				05C9D0D71D9AA7E00073F1A6 /* captureData.cpp */,
 				05C9D0D81D9AA7E00073F1A6 /* captureData.h */,
 				05C9D0D91D9AA7E00073F1A6 /* featureExtraction.cpp */,
@@ -167,6 +172,7 @@
 				05C9D0E41D9AA7E00073F1A6 /* fft.cpp in Sources */,
 				05C9D0D61D9A65400073F1A6 /* dtw.cpp in Sources */,
 				05C9D0E31D9AA7E00073F1A6 /* featureExtraction.cpp in Sources */,
+				05EB55AB1D9F62FA002D50E8 /* dtwTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +301,7 @@
 				05C9D0D31D9A650A0073F1A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
