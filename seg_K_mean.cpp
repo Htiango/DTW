@@ -150,7 +150,15 @@ vector<vector<int>> getOneSegIndex(vector<vector<double>>& temp1, vector<vector<
             }
         }
     }
-    dummy_segIndex.push_back({0, dummy_end});
+    
+    if (dummy_index != 0) {
+        dummy_segIndex.push_back({0, dummy_end});
+        dummy_segIndex.push_back({-1,-1});
+    }
+    else{
+        dummy_segIndex.push_back({0, dummy_end});
+    }
+    
     
     for (int i = 0; i < SEG_NUM; i++) {
         temSegIndex.push_back(dummy_segIndex[SEG_NUM - 1 - i]) ;
