@@ -20,7 +20,8 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     
     
-    getResult();
+//    getResult();
+    getSegTem();
 
     
 //    cout << "-------------------------TEMPLATE--------------------------" << endl;
