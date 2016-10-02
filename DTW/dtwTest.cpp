@@ -21,10 +21,11 @@ string txtInputPath = "/Users/hty/desktop/testingData/input";
 void getTem(vector<vector<vector<double>>>& temGroup){
     
     for (unsigned int i = 0; i < TYPE_NUM; i++) {
+//    for (unsigned int i = 0; i < 1; i++) {
         for(unsigned int j = 0; j < TEM_NUM; j ++){
             cout << "-----------------------Template " << i << " Instance " << j <<"------------------------" << endl;
             string wavpath = wavTemPath +  to_string(i) + "/" + to_string(j)+ "/record.wav";
-            capture(wavpath);
+//            capture(wavpath);
             
             vector<vector<double>> temFeature;
             string txtpath = txtTemPath + to_string(i) + "/";
@@ -88,5 +89,12 @@ void getResult(){
 }
 
 
-
+//void getSegTem(){
+//    vector<vector<vector<double>>> temGroup;
+//    getTem(temGroup);
+//    
+//    vector<vector<double>> segTem;
+//    segTem = dtw2hmm(temGroup);
+//    cout << "yes!!"<<endl;
+//}
 

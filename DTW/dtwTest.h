@@ -16,6 +16,7 @@
 #include "featureExtraction.h"
 #include "dtw.h"
 #include <stdlib.h>
+#include "seg_K_mean.h"
 
 using namespace std;
 
@@ -27,5 +28,6 @@ using namespace std;
 
 
 void getResult();
+void getSegTem();
 
 #endif /* dtwTest_h */
