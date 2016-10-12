@@ -26,7 +26,7 @@ double nodeCost(vector<double>& frame, vector<double>& segTem, vector<double>& v
     double nodeCost = 0;
     
     for (int i = 0; i < DIMENSION; i++) {
-        double x = log(2 * PI * varianceTerm[i]);
+//        double x = log(2 * PI * varianceTerm[i]);
         nodeCost += log(2 * PI * varianceTerm[i]) + pow((frame[i] - segTem[i]), 2) / varianceTerm[i];
     }
     

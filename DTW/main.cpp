@@ -17,11 +17,64 @@
 using namespace std;
 
 
+
+
+
+
+
 int main(int argc, const char * argv[]) {
     
     
-//    getResult();
-    getSegTem();
+    getResult();      // get the result of dtw
+    getSynDTWResult(); // get the Syn DTW
+    getSegTem();        // get the result of segmental k-mean
+    testSegTem();       // test segmental k-mean
+
+}
+
+//void getTem1(vector<vector<vector<double>>>& temGroup){
+//    string wavTemPath = "/Users/hty/desktop/testingData/test 4.0/template";
+//    string txtTemPath = "/Users/hty/desktop/testingData/test 4.0/template";
+//    for (unsigned int i = 0; i < TYPE_NUM; i++) {
+//        //    for (unsigned int i = 0; i < 1; i++) {
+//        for(unsigned int j = 0; j < TEM_NUM; j ++){
+//            cout << "-----------------------Template " << i << " Instance " << j <<"------------------------" << endl;
+//            string wavpath = wavTemPath +  to_string(i) + "/" + to_string(j)+ "/record.wav";
+//            
+//            //            capture(wavpath);
+//            
+//            //            cout << "Enter 0 to go on, otherwise to record again"<< endl;
+//            //            int out = getchar();
+//            //            while (out != 48) {
+//            //                cout << "Enter 0 to go on, otherwise to record again"<< endl;
+//            //                out = getchar();
+//            //                capture(wavpath);
+//            //            }
+//            
+//            
+//            vector<vector<double>> temFeature;
+//            string txtpath = txtTemPath + to_string(i) +  "/" + to_string(j) +  "/";
+//            featureExtraction(temFeature, wavpath, txtpath);
+//            temGroup.push_back(temFeature);
+//        }
+//    }
+//}
+//
+//
+//void syTest(){
+//    string wavInputPath = "/Users/hty/desktop/testingData/test 4.0/input";
+//    string txtInputPath = "/Users/hty/desktop/testingData/test 4.0/input";
+//    vector<vector<vector<double>>> temGroup;
+//    getTem1(temGroup);
+//    
+//    vector<vector<double>> input;
+//    string wavPath = wavInputPath + to_string(5) + "/" + to_string(9) + "/record.wav";
+//    string txtPath = txtInputPath + to_string(5) + "/" + to_string(9) + "/";
+//    featureExtraction(input, wavPath, txtPath);
+//    
+//    ofstream out("/Users/hty/desktop/path.txt");
+//    printDTWPath(input, temGroup[6], out);
+//}
 
     
 //    cout << "-------------------------TEMPLATE--------------------------" << endl;
@@ -39,7 +92,7 @@ int main(int argc, const char * argv[]) {
 //    featureExtraction(temFeature, wavFilePath1, txtFilePath1);   // write txt file to the disk in order to watch
 //    
 //    
-//    
+//
 //    cout << "-------------------------INPUT1--------------------------" << endl;
 //    cout << "Press any key to record the input" << endl;
 ////    getchar();
@@ -88,6 +141,5 @@ int main(int argc, const char * argv[]) {
 //    double cost2 = dtw(inputFeature2, temFeature);
 //    cout << "The second cost value = " << cost2 << endl;
 //    cout << " " << endl;
-}
 
 

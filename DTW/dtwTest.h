@@ -21,13 +21,16 @@
 using namespace std;
 
 
-#define TEM_NUM     (5)
-
 #define TYPE_NUM    (10)
-#define INPUT_NUM   (5)
+
+#define TEM_NUM     (10)
+#define INPUT_NUM   (10)
 
 
 void getResult();
+void getSynDTWResult();
 void getSegTem();
+void testSegTem();
+
 
 #endif /* dtwTest_h */

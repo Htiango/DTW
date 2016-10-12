@@ -7,16 +7,32 @@
 //
 
 #include "dtwTest.h"
+//
+//string wavTemPath = "/Users/hty/desktop/testingData/test data2/template";
+//string txtTemPath = "/Users/hty/desktop/testingData/test data2/template";
+//string wavInputPath = "/Users/hty/desktop/testingData/test data2/input";
+//string txtInputPath = "/Users/hty/desktop/testingData/test data2/input";
+string wavTestPath = "/Users/hty/desktop/testingData/test data2";
+string txtTestPath = "/Users/hty/desktop/testingData/test data2";
 
-string wavTemPath = "/Users/hty/desktop/testingData/template";
-string txtTemPath = "/Users/hty/desktop/testingData/template";
-string wavInputPath = "/Users/hty/desktop/testingData/input";
-string txtInputPath = "/Users/hty/desktop/testingData/input";
 
-//string wavTemPath = "/Users/hty/desktop/testingData/test1.0/template";
-//string txtTemPath = "/Users/hty/desktop/testingData/test1.0/template";
-//string wavInputPath = "/Users/hty/desktop/testingData/test1.0/input";
-//string txtInputPath = "/Users/hty/desktop/testingData/test1.0/input";
+string wavTemPath = "/Users/hty/desktop/testingData/test 4.0/template";
+string txtTemPath = "/Users/hty/desktop/testingData/test 4.0/template";
+string wavInputPath = "/Users/hty/desktop/testingData/test 4.0/input";
+string txtInputPath = "/Users/hty/desktop/testingData/test 4.0/input";
+
+//string wavTemPath = "/Users/hty/desktop/testingData/temp/template";
+//string txtTemPath = "/Users/hty/desktop/testingData/temp/template";
+//string wavInputPath = "/Users/hty/desktop/testingData/temp/input";
+//string txtInputPath = "/Users/hty/desktop/testingData/temp/input";
+
+//
+
+
+//string wavTemPath = "/Users/hty/Desktop/testingData/Correct DTW Testing Data/test2.0/template";
+//string txtTemPath = "/Users/hty/Desktop/testingData/Correct DTW Testing Data/test2.0/template";
+//string wavInputPath = "/Users/hty/Desktop/testingData/Correct DTW Testing Data/test2.0/input";
+//string txtInputPath = "/Users/hty/Desktop/testingData/Correct DTW Testing Data/test2.0/input";
 
 void getTem(vector<vector<vector<double>>>& temGroup){
     for (unsigned int i = 0; i < TYPE_NUM; i++) {
@@ -24,10 +40,20 @@ void getTem(vector<vector<vector<double>>>& temGroup){
         for(unsigned int j = 0; j < TEM_NUM; j ++){
             cout << "-----------------------Template " << i << " Instance " << j <<"------------------------" << endl;
             string wavpath = wavTemPath +  to_string(i) + "/" + to_string(j)+ "/record.wav";
+            
 //            capture(wavpath);
             
+//            cout << "Enter 0 to go on, otherwise to record again"<< endl;
+//            int out = getchar();
+//            while (out != 48) {
+//                cout << "Enter 0 to go on, otherwise to record again"<< endl;
+//                out = getchar();
+//                capture(wavpath);
+//            }
+
+            
             vector<vector<double>> temFeature;
-            string txtpath = txtTemPath + to_string(i) + "/";
+            string txtpath = txtTemPath + to_string(i) +  "/" + to_string(j) +  "/";
             featureExtraction(temFeature, wavpath, txtpath);
             temGroup.push_back(temFeature);
         }
@@ -41,12 +67,15 @@ void getInput(vector<vector<double>>& input, string& wavPath, string& txtPath){
     featureExtraction(input, wavPath, txtPath);
 }
 
+// dtw
 void getResult(){
     vector<vector<vector<double>>> temGroup;
     
     getTem(temGroup);
     
     int correctNum =0;
+    
+    cout << "-------------------------------------------------------DTW result---------------------------------------------------" << endl;
     
     for (unsigned int i = 0; i < TYPE_NUM; i++) {
         
@@ -56,7 +85,15 @@ void getResult(){
             vector<vector<double>> input;
             string wavPath = wavInputPath + to_string(i) + "/" + to_string(j) + "/record.wav";
             string txtPath = txtInputPath + to_string(i) + "/" + to_string(j) + "/";
-            getInput(input, wavPath, txtPath);
+//            capture(wavPath);
+//            cout << "Enter 0 to go on, otherwise to record again"<< endl;
+//            int out = getchar();
+//            while (out != 48) {
+//                cout << "Enter 0 to go on, otherwise to record again"<< endl;
+//                out = getchar();
+//                capture(wavPath);
+//            }
+            featureExtraction(input, wavPath, txtPath);
             
             double minDtw = dtw(input, temGroup[0]);
             int bestIndex = 0;
@@ -77,7 +114,64 @@ void getResult(){
                 cout << "The matching is correct!! Now the correct number is " << correctNum << endl;
             }
             else{
-                cout << "The matching is wrong......." << endl;
+                cout << "The matching is wrong.........xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
+            }
+        }
+    }
+    
+    cout << "The total number of input is "<< TYPE_NUM * INPUT_NUM << endl;
+    cout << "The correct matching input number is "<< correctNum << endl;
+    cout << "The accuracy of the matching is " << (1.0 * correctNum / (TYPE_NUM * INPUT_NUM)) << endl;
+}
+
+// beamSynchronousDTW
+void getSynDTWResult(){
+    vector<vector<vector<double>>> temGroup;
+    
+    getTem(temGroup);
+    
+    int correctNum =0;
+    
+    cout << "-------------------------------------------------------syn DTW result---------------------------------------------------" << endl;
+    
+    for (unsigned int i = 0; i < TYPE_NUM; i++) {
+        
+        for (unsigned int j = 0; j < INPUT_NUM; j++) {
+            cout << endl;
+            cout <<"-----------------------Input " << i <<"   Instance " << j << "------------------------" << endl;
+            vector<vector<double>> input;
+            string wavPath = wavInputPath + to_string(i) + "/" + to_string(j) + "/record.wav";
+            string txtPath = txtInputPath + to_string(i) + "/" + to_string(j) + "/";
+            getInput(input, wavPath, txtPath);
+            
+            vector<double> costMap = beamSynchronousDTW(input, temGroup);
+            
+            double minDtw = costMap[0];
+            int bestIndex = 0;
+            cout << "The input is " << i << ", the dtwValue with 0.0 is " << minDtw << endl;
+            
+            for (unsigned int k = 1; k < TEM_NUM * TYPE_NUM; k++) {
+                double dtwValue = costMap[k];
+                cout << "The input is " << i << ", the dtwValue with "<< k / TEM_NUM << "."<< k % TEM_NUM << " is " << dtwValue << endl;
+                if (dtwValue < minDtw) {
+                    bestIndex = k;
+                    minDtw = dtwValue;
+                }
+            }
+            if (minDtw == UINT_MAX / 2) {
+                cout << "All the path is rid off. No match template!" << endl;
+                bestIndex = UINT_MAX / 2;
+            }
+            else {
+                cout << "The input is " << i << ", while the match template is " << bestIndex / TEM_NUM << "."<< bestIndex % TEM_NUM << ". Their dtw value is "<< minDtw <<  endl;
+            }
+            
+            if (i == bestIndex / TEM_NUM) {
+                correctNum += 1;
+                cout << "The matching is correct!! Now the correct number is " << correctNum << endl;
+            }
+            else{
+                cout << "The matching is wrong.........xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
             }
         }
     }
@@ -88,6 +182,7 @@ void getResult(){
 }
 
 
+// segmental k-mean
 void getSegTem(){
     vector<vector<vector<double>>> segTemGroup;
     for (int i = 0; i < TYPE_NUM; i++) {
@@ -97,7 +192,7 @@ void getSegTem(){
             string wavpath = wavTemPath +  to_string(i) + "/" + to_string(j)+ "/record.wav";
 //            capture(wavpath);
             vector<vector<double>> temFeature;
-            string txtpath = txtTemPath + to_string(i) + "/";
+            string txtpath = txtTemPath + to_string(i) + "/" + to_string(j) + "/";
             featureExtraction(temFeature, wavpath, txtpath);
             temGroup.push_back(temFeature);
         }
@@ -108,6 +203,8 @@ void getSegTem(){
     }
     
     int correctNum =0;
+    
+    cout << "-------------------------------------------------------seg K-mean result---------------------------------------------------" << endl;
     
     for (unsigned int i = 0; i < TYPE_NUM; i++) {
         
@@ -138,7 +235,7 @@ void getSegTem(){
                 cout << "The matching is correct!! Now the correct number is " << correctNum << endl;
             }
             else{
-                cout << "The matching is wrong......." << endl;
+                cout << "The matching is wrong.......xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
             }
         }
     }
@@ -151,4 +248,69 @@ void getSegTem(){
 }
 
 
+
+// test segmental k-mean
+void testSegTem(){
+    vector<vector<vector<double>>> segTemGroup;
+    for (int i = 0; i < TYPE_NUM; i++) {
+        vector<vector<vector<double>>> temGroup;
+        for (int j = 0; j < TEM_NUM; j++) {
+            cout << "-----------------------Template " << i << " Instance " << j <<"------------------------" << endl;
+            string wavpath = wavTemPath +  to_string(i) + "/" + to_string(j)+ "/record.wav";
+            //            capture(wavpath);
+            vector<vector<double>> temFeature;
+            string txtpath = txtTemPath + to_string(i) + "/" + to_string(j) + "/";
+            featureExtraction(temFeature, wavpath, txtpath);
+            temGroup.push_back(temFeature);
+        }
+        vector<vector<double>> segTem;
+        segTem = dtw2hmm(temGroup);
+        cout << "You have got the segment template!!!!!!!!!!!!!!!!!!!"<<endl;
+        segTemGroup.push_back(segTem);
+    }
+    
+    
+    cout << "Please enter any key to start to input. (Enter 0 to exit)" << endl;
+    int i = getchar();
+    Pa_Sleep(1000);
+    
+    while (i != 48) {
+        vector<vector<double>> input;
+        string wavPath = wavTestPath + "/test/record.wav";
+        string txtPath = txtTestPath + "/test/";
+        capture(wavPath);
+        Pa_Sleep(1000);
+        cout << endl;
+        cout << "Enter 0 to go on, otherwise to record again"<< endl;
+        int j = getchar();
+        while (j != 48) {
+            capture(wavPath);
+            cout << "Enter 0 to go on, otherwise to record again"<< endl;
+            j = getchar();
+        }
+        featureExtraction(input, wavPath, txtPath);
+        
+        double minDtw = dtw(input, segTemGroup[0]);
+        int bestIndex = 0;
+        cout << "The dtwValue with 0 is " << minDtw << endl;
+        
+        for (unsigned int k = 1; k < TYPE_NUM; k++) {
+            double dtwValue = dtw(input, segTemGroup[k]);
+            cout << "The dtwValue with "<< k  << " is " << dtwValue << endl;
+            if (dtwValue < minDtw) {
+                bestIndex = k;
+                minDtw = dtwValue;
+            }
+        }
+        cout << "The match template is " << bestIndex  << ". Their dtw value is "<< minDtw <<  endl;
+        
+        cout << "Please enter any key to start to input. (Enter 0 to exit)" << endl;
+        Pa_Sleep(1000);
+//        getchar();
+        i = getchar();
+        Pa_Sleep(1000);
+        cout << endl;
+    }
+    
+}
 

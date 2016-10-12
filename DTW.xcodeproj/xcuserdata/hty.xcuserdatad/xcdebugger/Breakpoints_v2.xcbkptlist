@@ -104,13 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DTW/main.cpp"
-            timestampString = "497105413.048663"
+            timestampString = "497328261.308985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "9">
+            startingLineNumber = "143"
+            endingLineNumber = "143">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -408,13 +406,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DTW/main.cpp"
-            timestampString = "497105413.048663"
+            timestampString = "497328261.308985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "9">
+            startingLineNumber = "141"
+            endingLineNumber = "141">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -440,13 +436,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DTW/main.cpp"
-            timestampString = "497105413.048663"
+            timestampString = "497328261.308985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "9">
+            startingLineNumber = "142"
+            endingLineNumber = "142">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -456,13 +450,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DTW/main.cpp"
-            timestampString = "497105413.048663"
+            timestampString = "497328261.308985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "9">
+            startingLineNumber = "137"
+            endingLineNumber = "137">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -628,77 +620,77 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DTW/dtwTest.cpp"
-            timestampString = "497109676.481009"
+            timestampString = "497416497.891453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "getSegTem()"
             landmarkType = "9">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "getSegTem()"
                   moduleName = "DTW"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hty/Desktop/Speech%20Recognition/project/project4/DTW/DTW/dtwTest.cpp"
-                  timestampString = "497111686.547825"
+                  timestampString = "497242230.893443"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "151"
-                  endingLineNumber = "151"
-                  offsetFromSymbolStart = "5037">
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
+                  offsetFromSymbolStart = "6251">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "getSegTem()"
                   moduleName = "DTW"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hty/Desktop/Speech%20Recognition/project/project4/DTW/DTW/dtwTest.cpp"
-                  timestampString = "497111686.551755"
+                  timestampString = "497242230.896214"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "151"
-                  endingLineNumber = "151"
-                  offsetFromSymbolStart = "6157">
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
+                  offsetFromSymbolStart = "7467">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "getSegTem()"
                   moduleName = "DTW"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hty/Desktop/Speech%20Recognition/project/project4/DTW/DTW/dtwTest.cpp"
-                  timestampString = "497111686.556905"
+                  timestampString = "497242230.898968"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "151"
-                  endingLineNumber = "151"
-                  offsetFromSymbolStart = "12310">
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
+                  offsetFromSymbolStart = "13620">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "getSegTem()"
                   moduleName = "DTW"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hty/Desktop/Speech%20Recognition/project/project4/DTW/DTW/dtwTest.cpp"
-                  timestampString = "497111686.559573"
+                  timestampString = "497242230.901624"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "151"
-                  endingLineNumber = "151"
-                  offsetFromSymbolStart = "13660">
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
+                  offsetFromSymbolStart = "14970">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -726,11 +718,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DTW/dtwTest.cpp"
-            timestampString = "497110362.822933"
+            timestampString = "497416497.891453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "getSegTem()"
             landmarkType = "9">
          </BreakpointContent>
@@ -742,11 +734,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DTW/dtwTest.cpp"
-            timestampString = "497110387.728987"
+            timestampString = "497416497.891453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "getSegTem()"
             landmarkType = "9">
          </BreakpointContent>

@@ -39,9 +39,9 @@ using namespace std;
 typedef short SAMPLE;
 #define FORGET_FACTOR   (1)
 #define ADJUSTMENT      (0.05)
-#define THRESHOLD           (10)
+#define THRESHOLD_F           (10)
 #define SPEAKTHRESHOLD      (5)
-#define SILENCETHRESHOLD    (5)
+#define SILENCETHRESHOLD_F    (5)
 #define FRAME_IGNORE        (4)
 #define FRAME_TO_BACKGROUND (5)
 

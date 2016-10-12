@@ -48,7 +48,7 @@ bool classifyStartFramef(SAMPLE *audioframe, long framesToCalc)
     if (levelStart < background) {
         levelStart = background;
     }
-    if (levelStart - background > THRESHOLD) {
+    if (levelStart - background > THRESHOLD_F) {
         isSpeech = true;
     }
 //    if (flag) {
@@ -78,7 +78,7 @@ bool classifyEndFramef(SAMPLE *audioframe, long framesToCalc)
     if (levelEnd < background) {
         levelEnd = background;
     }
-    if (levelEnd - background > THRESHOLD) {
+    if (levelEnd - background > THRESHOLD_F) {
         isSpeech = true;
     }
 
@@ -128,8 +128,8 @@ int pruneFrame(short* dataWave, int& numSamples) {
             start = i - SPEAKTHRESHOLD * SAMPLE_PER_FRAME;
             startFlag = false;
         }
-        if (continueSilenceTimef > SILENCETHRESHOLD && endFlag) {
-            end = numSamples - i + (FRAME_IGNORE + FRAME_TO_BACKGROUND + SILENCETHRESHOLD) * SAMPLE_PER_FRAME;
+        if (continueSilenceTimef > SILENCETHRESHOLD_F && endFlag) {
+            end = numSamples - i + (FRAME_IGNORE + FRAME_TO_BACKGROUND + SILENCETHRESHOLD_F) * SAMPLE_PER_FRAME;
             endFlag = false;
         }
     }

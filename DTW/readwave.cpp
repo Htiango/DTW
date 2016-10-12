@@ -160,7 +160,7 @@ short *ReadWavFile(const char *wavFile, int *numSamples, int *sampleRate )
 		exit(0);
 	}
 
-    int output = (File_length-sizeof(struct WavFileHead))/sizeof(short);
+    int output = int ((File_length-sizeof(struct WavFileHead))/sizeof(short));
     printf("%d \n", output);
 	waveData = new short [(File_length-sizeof(struct WavFileHead))/sizeof(short)];
 	numRead = fread(waveData, sizeof(short), (File_length-sizeof(struct WavFileHead))/sizeof(short), wavFp);
